@@ -18,4 +18,4 @@ Conseguimos 608 pontos na etapa estadual e ficou em 3º lugar.
 
 - [Site da OBR](https://www.obr.org.br/)
 
-![Colagem](image.png)
+<img src="image.png" alt="colagem" width=500>
