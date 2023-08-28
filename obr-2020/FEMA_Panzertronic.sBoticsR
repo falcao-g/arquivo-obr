@@ -1,0 +1,417 @@
+numero triangulo = 0
+numero luzi = 0
+numero temp = 0
+numero distancia = 0
+numero indo = 0
+numero temp2 = 0
+
+tarefa arruma{
+    velocidadeatuador(150)
+    levantar(500)
+    se (angulogiroatuador() != 0 e angulogiroatuador() != 360) entao{
+    se (angulogiroatuador() < 180) entao{
+        farei{
+            girarbaixo(1)
+        }enquanto(angulogiroatuador() != 0 e anguloatuador() != 360)
+    }senao se(angulogiroatuador() > 180) entao{
+        farei{
+            girarcima(1)
+        }enquanto(angulogiroatuador() != 0 e anguloatuador() != 360)
+    }
+}
+}
+
+tarefa desvio{
+    farei{
+        mover(negativo(300), 300)
+    }enquanto(cor(4) != "PRETO")
+    rotacionar(600, 42)
+    parar()
+    esperar(100)
+    enquanto(ultra(3) > 30)farei{
+    mover(300,negativo(260))
+    }
+    enquanto(ultra(3) < 30)farei{
+    mover(300,negativo(260)) 
+    }
+    enquanto(luz(4) > luzi e luz(3) > luzi)farei{
+    mover(300,negativo(285))
+    }
+    frente(200)
+    esperar(200)
+    enquanto(luz(4) > luzi e luz(3) > luzi)farei{
+        rotacionar(600,1)
+    }
+}
+
+tarefa calibrar{
+    se (luzi > 40) entao{
+        luzi = 40
+    }senao se (luzi < 10) entao{
+        luzi = 10
+    }
+}
+
+tarefa verde{
+        se (cor(1) == "VERDE" ou cor(2) == "VERDE")entao{
+        enquanto(cor(1) == "VERDE" ou cor(2) == "VERDE")farei{
+        frente(200)
+        esperar(300)
+        }
+        rotacionar(500, 30)
+        enquanto(cor(4) != "PRETO" e luz(4) > luzi e cor(3) != "PRETO" e luz(3) > luzi)farei{
+            rotacionar(600, 1)
+        }
+
+    }senao se (cor(3) == "VERDE" ou cor(4) == "VERDE")entao{
+            enquanto(cor(4) == "VERDE" ou cor(3) == "VERDE")farei{
+            frente(200)
+            esperar(300)
+            }
+            rotacionar(500, negativo(30))
+            enquanto(cor(2) != "PRETO" e luz(2) > luzi e cor(1) != "PRETO" e luz(1) > luzi)farei{
+                rotacionar(600, negativo(1))
+            }
+        }
+}
+
+tarefa c90{
+    se (luz(1) < luzi ou cor(1) == "PRETO" ou cor(1) == "VERDE")entao{
+        verde()
+        frente(200)
+        esperar(200)
+        zerartemporizador()
+        temp = temporizador()
+        enquanto(luz(3) > luzi e cor(3) != "PRETO" e luz(4) > luzi e cor(4) != "PRETO" e temporizador() < temp + 2000)farei{
+            rotacionar(600, 1)
+            luzi = ((luz(3) + luz(4)) / 2)  -  ((luz(3) + luz(4)) / 10)
+            calibrar()
+            verde()
+        }
+        se (cor(1) == "BRANCO" e cor(2) == "BRANCO" e cor(3) == "BRANCO" e cor(4) == "BRANCO") entao{
+            farei{
+                rotacionar(600, 1)
+            }enquanto(cor(1) == "BRANCO" e cor(2) == "BRANCO" e cor(3) == "BRANCO" e cor(4) == "BRANCO")
+        }
+    }senao se (luz(4) < luzi ou cor(4) == "PRETO" ou cor(4) == "VERDE")entao{
+        verde()
+        frente(200)
+        esperar(200)
+        zerartemporizador()
+        temp = temporizador()
+        enquanto(luz(1) > luzi e cor(1) != "PRETO" e luz(2) > luzi e cor(2) != "PRETO" e temporizador() < temp + 2000)farei{
+                rotacionar(600, negativo(1))
+                luzi = ((luz(1) + luz(2)) / 2)  -  ((luz(1) + luz(2)) / 10)
+                calibrar()
+                verde()
+        }
+        se (cor(1) == "BRANCO" e cor(2) == "BRANCO" e cor(3) == "BRANCO" e cor(4) == "BRANCO") entao{
+            farei{
+                rotacionar(600, negativo(1))
+            }enquanto(cor(1) == "BRANCO" e cor(2) == "BRANCO" e cor(3) == "BRANCO" e cor(4) == "BRANCO")
+        }
+        }      
+}
+
+tarefa seguelinha{
+    se (luz(2) < luzi ou cor(2) == "PRETO" ou cor(2) == "VERDE") entao{
+        enquanto(luz(2) < luzi ou cor(2) == "PRETO")farei{
+        verde()
+        c90()
+        frente(50)
+        esperar(50)
+        rotacionar(500, 1)
+        luzi = ((luz(3) + luz(4)) / 2)  -  ((luz(3) + luz(4)) / 10)
+        calibrar()
+        }
+    }senao se (luz(3) < luzi ou cor(3) == "PRETO" ou cor(3) == "VERDE")entao{
+        enquanto(luz(3) < luzi ou cor(3) == "PRETO")farei{
+        verde()
+        c90()
+        frente(50)
+        esperar(50)
+        rotacionar(500, negativo(1))
+        luzi = ((luz(1) + luz(2)) / 2)  -  ((luz(1) + luz(2)) / 10)
+        calibrar()
+        }
+    }senao{
+        mover(130,130)
+        luzi = ((luz(1) + luz(2) + luz(4) + luz(3)) / 4) - (((luz(1) + luz(2) + luz(4) + luz(3)) / 4) / 10)
+        calibrar()
+        c90()
+    }
+}
+
+tarefa vitima{
+    se (ultra(3) < distancia)entao{
+        se(ultra(3) < 10)entao{
+        se(indo == 1) entao{
+            tras(100)
+            esperar(200)
+            rotacionar(600, 90)
+            frente(100)
+            esperar(500)
+            rotacionar(600, negativo(90))
+            frente(100)
+            esperar(600)
+        }senao se(indo == 0)entao{
+            frente(100)
+            esperar(200)
+            rotacionar(600, 90)
+            frente(100)
+            esperar(500)
+            rotacionar(600, negativo(90))
+            tras(100)
+            esperar(600)
+        }
+        }senao{
+        se(indo == 1) entao{
+        frente(100)
+        esperar(350)
+        }senao se(indo == 0)entao{
+            tras(200)
+            esperar(350)
+        }
+        }
+        rotacionar(600, negativo(90))
+        zerartemporizador()
+        temp = temporizador()
+        enquanto(verdadeiro)farei{
+            tras(100)
+            se(temporizador() > temp + 350)entao{
+                interromper()
+            }
+            se(toque(1) == verdadeiro)entao{
+                interromper()
+            }
+        }
+        esperar(350)
+        baixar(700)
+        girarcima(100)
+        zerartemporizador()
+        farei{
+            frente(200)
+        }enquanto(ultra(1) > 40)
+        temp2 = temporizador()
+        se (temvitima() == verdadeiro)entao{
+            zerartemporizador()
+            temp = temporizador()
+            farei{
+                girarbaixo(10)
+                levantar(10)
+            }enquanto(temporizador() < temp + 1000)
+        }
+        se (temvitima() == verdadeiro)entao{
+        tras(100)
+        esperar(150)
+        rotacionar(600, 180)
+        farei{
+            frente(150)
+            se(ultra(1) < 10)entao{
+                interromper()
+            }
+            se (cor(5) == "PRETO")entao{
+                interromper()
+            }
+        }enquanto(verdadeiro)
+        se(cor(5) != "PRETO") entao{
+        rotacionar(600, 90)
+        temp = 1
+        }
+        velocidadeatuador(150)
+        farei{
+            frente(100)
+        }enquanto(cor(5) != "PRETO")
+        parar()
+        velocidadeatuador(20)
+        baixar(2500)
+        frente(100)
+        esperar(200)
+        tras(100)
+        esperar(200)
+        frente(100)
+        esperar(200)
+        tras(100)
+        esperar(100)
+        arruma()
+        se (temp == 1) entao{
+            rotacionar(600, negativo(180))
+        }senao{
+            rotacionar(600, negativo(90))
+        }
+        distancia = ultra(3) - 5
+        se (distancia > 150 ou distancia < 100)entao{
+            distancia = 148
+        }
+        }senao{
+            arruma()
+            tras(200)
+            esperar(temp2)
+            rotacionar(600, 90)
+            distancia = ultra(3) - 5
+            se (distancia > 150 ou distancia < 100)entao{
+            distancia = 148
+        }
+        }
+    }
+}
+
+tarefa resgate{
+    enquanto(verdadeiro)farei{
+    baixar(300)
+    enquanto (ultra(3) < 30 e ultra(2) < 30)farei{
+        seguelinha()
+    }
+    levantar(500)
+    frente(200)
+    esperar(450)
+    rotacionar(600, 90)
+    enquanto(ultra(1) > 10 e luz(5) > 13)farei{
+        frente(200)
+    }
+    se (luz(5) < 13)entao{
+        triangulo = 1
+    }
+    se (triangulo == 0)entao{
+        rotacionar(600, negativo(90))
+        enquanto(ultra(1) > 10 e cor(5) != "PRETO")farei{
+        frente(200)
+        }
+        frente(50)
+        esperar(200)
+    se (luz(5) < 13)entao{
+        triangulo = 2
+    }
+    }
+    se (triangulo == 0)entao{
+        triangulo = 3
+    }
+    se(triangulo == 1)entao{
+        tras(100)
+        esperar(200)
+        rotacionar(600, negativo(90))
+        distancia = ultra(3) - 5
+        enquanto(verdadeiro)farei{
+            vitima()
+            farei{
+                frente(150)
+                vitima()
+                indo = 1
+            }enquanto(ultra(1) > 10)
+            vitima()
+            farei{
+                tras(150)
+                vitima()
+                indo = 0
+            }enquanto(toque(1)==falso)
+            vitima()
+        }
+    }senao se (triangulo == 2)entao{
+        tras(200)
+        esperar(200)
+        rotacionar(600, negativo(90))
+        distancia = ultra(3) - 5
+        enquanto(verdadeiro)farei{
+            vitima()
+            farei{
+                frente(150)
+                vitima()
+                indo = 1
+            }enquanto(ultra(1) > 10)
+            vitima()
+            farei{
+                tras(150)
+                vitima()
+                indo = 0
+            }enquanto(toque(1)==falso)
+            vitima()
+        }
+    }senao se (triangulo == 3)entao{
+        rotacionar(600, negativo(90))
+        farei{
+            frente(150)
+        }enquanto(luz(5) > 13)
+                tras(200)
+        esperar(200)
+        rotacionar(600, negativo(90))
+        distancia = ultra(3) - 5
+        enquanto(verdadeiro)farei{
+            vitima()
+            farei{
+                frente(150)
+                vitima()
+                indo = 1
+            }enquanto(ultra(1) > 10)
+            vitima()
+            farei{
+                tras(150)
+                vitima()
+                indo = 0
+            }enquanto(toque(1)==falso e ultra(2) < 20)
+            vitima()
+        }
+    }
+    }
+}
+
+tarefa desvio2{
+    farei{
+        mover(negativo(300), 300)
+    }enquanto(cor(4) != "PRETO")
+    rotacionar(600, 25)
+    zerartemporizador()
+    temp = temporizador()
+    farei{
+    frente(200)
+    se(luz(1) < luzi ou luz(2) < luzi ou luz(3) < luzi ou luz(4) < luzi) entao{
+        interromper()
+    }
+    }enquanto(temporizador() < temp + 1000)
+    se(luz(1) < luzi ou luz(2) < luzi ou luz(3) < luzi ou luz(4) < luzi) entao{
+        seguelinha()
+    }senao{
+        rotacionar(600, negativo(34))
+        frente(200)
+        esperar(600)
+        rotacionar(600, negativo(40))
+        zerartemporizador()
+        temp = temporizador()
+        farei{
+        frente(200)
+        se(luz(1) < luzi ou luz(2) < luzi ou luz(3) < luzi ou luz(4) < luzi) entao{
+            interromper()
+        }
+        }enquanto(temporizador() < temp + 600)
+        se(luz(1) < luzi ou luz(2) < luzi ou luz(3) < luzi ou luz(4) < luzi) entao{
+        seguelinha()
+        }senao{
+            rotacionar(600, negativo(50))
+            frente(200)
+            esperar(500)
+            rotacionar(600, negativo(40))
+            seguelinha()
+        }
+    }
+}
+
+inicio
+tras(100)
+esperar(100)
+velocidadeatuador(150)
+levantar(500)
+arruma()
+luzi = ((luz(1) + luz(2) + luz(4) + luz(3)) / 4) - (((luz(1) + luz(2) + luz(4) + luz(3)) / 4) / 10)
+enquanto(verdadeiro)farei{
+    escrevernumero(1, luzi)
+    calibrar()
+    se (ultra(1) < 20)entao{
+        desvio2()
+    }senao se (ultra(3) < 40 e ultra(2) < 40 e ultra(2) > 25 e ultra(3) > 25 e cor(1) == "BRANCO" e cor(2) == "BRANCO" e cor(3) == "BRANCO" e cor(4) == "BRANCO") entao{
+        resgate()
+    }senao{
+        verde()
+        seguelinha()
+        c90()
+    }
+    }
+fim
