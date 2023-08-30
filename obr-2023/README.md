@@ -15,5 +15,7 @@ O desafio pode ser encontrado nos manuais da etapa [estadual](OBR2023_MP_ManualR
 ## 🌐 Links
 
 - [Site da OBR](https://www.obr.org.br/)
-
+- Notícias:
+- - <https://globoplay.globo.com/v/11897325/>
+- - <https://youtu.be/Q7MC689qd6Q?feature=shared>
 ![Foto de uma parte da comissão organizadora e o reitor da UFMS](image.png)
